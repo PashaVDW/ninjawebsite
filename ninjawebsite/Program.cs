@@ -1,15 +1,27 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿using Microsoft.EntityFrameworkCore;
+using ninjawebsite.Interfaces;
+using ninjawebsite.Models;
+using ninjawebsite.Repositories;
+
+var builder = WebApplication.CreateBuilder(args);
+
+// Voeg de DbContext toe met de connection string
+builder.Services.AddDbContext<NinjaContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("NinjaDatabase")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+// Voeg de repository toe aan de dependency-injectiecontainer
+builder.Services.AddScoped<INinjaRepository, NinjaRepository>();
+
+// Build de applicatie
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
@@ -25,4 +37,3 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-

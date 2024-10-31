@@ -1,25 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Users/pashavdw/dev/ninjawebsite/ninjawebsite/ninjawebsite.csproj": {}
+    "C:\\Users\\darlo\\Source\\Repos\\ninjawebsite\\ninjawebsite\\ninjawebsite.csproj": {}
   },
   "projects": {
-    "/Users/pashavdw/dev/ninjawebsite/ninjawebsite/ninjawebsite.csproj": {
+    "C:\\Users\\darlo\\Source\\Repos\\ninjawebsite\\ninjawebsite\\ninjawebsite.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/pashavdw/dev/ninjawebsite/ninjawebsite/ninjawebsite.csproj",
+        "projectUniqueName": "C:\\Users\\darlo\\Source\\Repos\\ninjawebsite\\ninjawebsite\\ninjawebsite.csproj",
         "projectName": "ninjawebsite",
-        "projectPath": "/Users/pashavdw/dev/ninjawebsite/ninjawebsite/ninjawebsite.csproj",
-        "packagesPath": "/Users/pashavdw/.nuget/packages/",
-        "outputPath": "/Users/pashavdw/dev/ninjawebsite/ninjawebsite/obj/",
+        "projectPath": "C:\\Users\\darlo\\Source\\Repos\\ninjawebsite\\ninjawebsite\\ninjawebsite.csproj",
+        "packagesPath": "C:\\Users\\darlo\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\darlo\\Source\\Repos\\ninjawebsite\\ninjawebsite\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/pashavdw/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\darlo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
         ],
         "sources": {
+          "c:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "c:\\Program Files\\dotnet\\library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -32,11 +39,32 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
         "net8.0": {
           "targetAlias": "net8.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[8.0.10, )"
+            },
+            "Microsoft.EntityFrameworkCore.Tools": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[8.0.10, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
@@ -56,7 +84,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.401/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "c:\\Program Files\\dotnet\\sdk\\8.0.400/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

@@ -17,6 +17,7 @@ builder.Services.AddScoped<INinjaRepository, NinjaRepository>();
 builder.Services.AddScoped<IShopRepository, ShopRepository>();
 builder.Services.AddScoped<IEquipmentRepository, EquipmentRepository>();
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
+builder.Services.AddScoped<ICategoriesRepository, CategoriesRepository>();
 
 // Build de applicatie
 var app = builder.Build();

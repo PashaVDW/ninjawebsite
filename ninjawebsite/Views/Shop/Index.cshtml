@@ -1,4 +1,17 @@
 ﻿@model IEnumerable<ShopsViewModel>
+@ViewBag.ninja.Gold
+
+<form asp-action="FilterByCategory" asp-controller="Shop" method="post">
+    <label for="category">Filter by Category:</label>
+    <select name="categoryId" id="category" onchange="this.form.submit()">
+        <option value="">All Categories</option>
+        @foreach (var category in ViewBag.categories)
+        {
+            <option value="@category.Id">@category.Name</option>
+        }
+    </select>
+</form>
+
 <div class="p-4 container mx-auto">
     <div class="gap-4 grid grid-cols-4">
         @foreach (var shopItem in Model)
@@ -9,6 +22,7 @@
                     <p>
                         @shopItem.Name
                     </p>
+                    <p>@shopItem.CategoryName</p>
                     <p>
                         <i class="fas fa-coins">
                         </i>

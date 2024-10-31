@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ninjawebsite")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+77f5578aa0bd435dc91271fbb87b10c37dddad43")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+888141bdcfb035e723b178956eff0babeed63670")]
 [assembly: System.Reflection.AssemblyProductAttribute("ninjawebsite")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ninjawebsite")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

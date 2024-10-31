@@ -31,21 +31,21 @@ namespace ninjawebsite.Migrations
                     b.Property<int>("Agility")
                         .HasColumnType("int");
 
-                    b.Property<int>("Categorie")
+                    b.Property<int>("Category")
                         .HasColumnType("int");
+
+                    b.Property<decimal>("GoldValue")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<int>("Intelligence")
                         .HasColumnType("int");
 
-                    b.Property<string>("Naam")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("Strength")
                         .HasColumnType("int");
-
-                    b.Property<decimal>("WaardeGoud")
-                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 
@@ -56,31 +56,31 @@ namespace ninjawebsite.Migrations
                         {
                             Id = 1,
                             Agility = 5,
-                            Categorie = 2,
+                            Category = 2,
+                            GoldValue = 50m,
                             Intelligence = 0,
-                            Naam = "Katana",
-                            Strength = 10,
-                            WaardeGoud = 50m
+                            Name = "Katana",
+                            Strength = 10
                         },
                         new
                         {
                             Id = 2,
                             Agility = 2,
-                            Categorie = 0,
+                            Category = 0,
+                            GoldValue = 30m,
                             Intelligence = 0,
-                            Naam = "Helm",
-                            Strength = 5,
-                            WaardeGoud = 30m
+                            Name = "Helmet",
+                            Strength = 5
                         },
                         new
                         {
                             Id = 3,
                             Agility = -2,
-                            Categorie = 1,
+                            Category = 1,
+                            GoldValue = 75m,
                             Intelligence = 0,
-                            Naam = "Harnas",
-                            Strength = 20,
-                            WaardeGoud = 75m
+                            Name = "Armor",
+                            Strength = 20
                         });
                 });
 
@@ -92,7 +92,7 @@ namespace ninjawebsite.Migrations
                     b.Property<int>("EquipmentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Aantal")
+                    b.Property<int>("Quantity")
                         .HasColumnType("int");
 
                     b.HasKey("NinjaId", "EquipmentId");
@@ -106,19 +106,19 @@ namespace ninjawebsite.Migrations
                         {
                             NinjaId = 1,
                             EquipmentId = 1,
-                            Aantal = 1
+                            Quantity = 1
                         },
                         new
                         {
                             NinjaId = 2,
                             EquipmentId = 2,
-                            Aantal = 1
+                            Quantity = 1
                         },
                         new
                         {
                             NinjaId = 1,
                             EquipmentId = 3,
-                            Aantal = 1
+                            Quantity = 1
                         });
                 });
 
@@ -130,10 +130,10 @@ namespace ninjawebsite.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<decimal>("Goud")
+                    b.Property<decimal>("Gold")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<string>("Naam")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -145,14 +145,14 @@ namespace ninjawebsite.Migrations
                         new
                         {
                             Id = 1,
-                            Goud = 100m,
-                            Naam = "Ryu"
+                            Gold = 100m,
+                            Name = "Ryu"
                         },
                         new
                         {
                             Id = 2,
-                            Goud = 150m,
-                            Naam = "Ken"
+                            Gold = 150m,
+                            Name = "Ken"
                         });
                 });
 
@@ -167,7 +167,7 @@ namespace ninjawebsite.Migrations
                     b.Property<int>("EquipmentId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("IsBeschikbaar")
+                    b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
                     b.Property<int>("NinjaId")
@@ -186,14 +186,14 @@ namespace ninjawebsite.Migrations
                         {
                             Id = 1,
                             EquipmentId = 2,
-                            IsBeschikbaar = true,
+                            IsAvailable = true,
                             NinjaId = 1
                         },
                         new
                         {
                             Id = 2,
                             EquipmentId = 3,
-                            IsBeschikbaar = false,
+                            IsAvailable = false,
                             NinjaId = 2
                         });
                 });

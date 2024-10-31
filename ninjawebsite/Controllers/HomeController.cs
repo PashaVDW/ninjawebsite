@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ninjawebsite.Models;
+using ninjawebsite.ViewModels;
 
 namespace ninjawebsite.Controllers;
 

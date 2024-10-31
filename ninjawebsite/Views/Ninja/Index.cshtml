@@ -1,0 +1,27 @@
+﻿@model IEnumerable<NinjaViewModel>
+
+<h2>Ninja List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Naam</th>
+            <th>Goud</th>
+            <th>Acties</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ninja in Model)
+        {
+            <tr>
+                <td>@ninja.Id</td>
+                <td>@ninja.Naam</td>
+                <td>@ninja.Goud</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@ninja.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

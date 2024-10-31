@@ -39,6 +39,7 @@ namespace ninjawebsite.Controllers
                       })
 
                 .ToList();
+
             return View(shopViewModels);
         }
         [HttpPost]
@@ -66,7 +67,12 @@ namespace ninjawebsite.Controllers
             }
             else
             {
+                TempData["ToastMessage"] = "You don't have enough gold!";
+                TempData["ToastType"] = "error";
 
+                TempData["ToastId"] = "BuyMessage";
+                TempData["AutoHide"] = "yes";
+                TempData["MilSecHide"] = 3000;
             }
             return RedirectToAction("Index");
         }

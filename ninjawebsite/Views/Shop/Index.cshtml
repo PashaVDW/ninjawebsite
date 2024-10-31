@@ -1,20 +1,29 @@
 ﻿@model IEnumerable<ShopsViewModel>
-
 <div class="p-4 container mx-auto">
     <div class="gap-4 grid grid-cols-4">
-        <div class="item-card">
-            <img alt="Radiant Mantle" height="150" width="150" />
-            <div class="item-info">
-                <p>
-                    Radiant Mantle
-                </p>
-                <p>
-                    <i class="fas fa-coins">
-                    </i>
-                    800
-                </p>
+        @foreach (var shopItem in Model)
+        {
+            <div class="item-card">
+                <img alt="@shopItem.Name" height="150" width="150" />
+                <div class="item-info">
+                    <p>
+                        @shopItem.Name
+                    </p>
+                    <p>
+                        <i class="fas fa-coins">
+                        </i>
+                        @shopItem.Gold
+                    </p>
+                    @if (shopItem.IsAvailable)
+                    {
+                        <a asp-action="Buy" asp-route-id="@shopItem.Id">Buy</a>
+                    } else
+                    {
+                        <p>Already bought</p>
+                    }
+                </div>
             </div>
-        </div>
+        }
     </div>
 </div>
  

@@ -8,5 +8,6 @@
     {
         Task<IEnumerable<Ninja>> GetAllNinjasAsync();
         Task<Ninja> GetNinjaByIdAsync(int id);
+        Task UpdateNinjaAsync(Ninja ninja);
     }
 }

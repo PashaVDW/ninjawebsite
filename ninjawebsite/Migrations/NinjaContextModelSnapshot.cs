@@ -20,6 +20,55 @@ namespace ninjawebsite.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("ninjawebsite.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Head"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Chest"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            Name = "Hand"
+                        },
+                        new
+                        {
+                            Id = 4,
+                            Name = "Feet"
+                        },
+                        new
+                        {
+                            Id = 5,
+                            Name = "Ring"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            Name = "Necklace"
+                        });
+                });
+
             modelBuilder.Entity("ninjawebsite.Models.Equipment", b =>
                 {
                     b.Property<int>("Id")
@@ -31,7 +80,7 @@ namespace ninjawebsite.Migrations
                     b.Property<int>("Agility")
                         .HasColumnType("int");
 
-                    b.Property<int>("Category")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("GoldValue")
@@ -49,6 +98,8 @@ namespace ninjawebsite.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
                     b.ToTable("Equipments");
 
                     b.HasData(
@@ -56,7 +107,7 @@ namespace ninjawebsite.Migrations
                         {
                             Id = 1,
                             Agility = 5,
-                            Category = 2,
+                            CategoryId = 1,
                             GoldValue = 50m,
                             Intelligence = 0,
                             Name = "Katana",
@@ -66,7 +117,7 @@ namespace ninjawebsite.Migrations
                         {
                             Id = 2,
                             Agility = 2,
-                            Category = 0,
+                            CategoryId = 2,
                             GoldValue = 30m,
                             Intelligence = 0,
                             Name = "Helmet",
@@ -76,7 +127,7 @@ namespace ninjawebsite.Migrations
                         {
                             Id = 3,
                             Agility = -2,
-                            Category = 1,
+                            CategoryId = 6,
                             GoldValue = 75m,
                             Intelligence = 0,
                             Name = "Armor",
@@ -92,12 +143,17 @@ namespace ninjawebsite.Migrations
                     b.Property<int>("EquipmentId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Quantity")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
                     b.HasKey("NinjaId", "EquipmentId");
 
+                    b.HasIndex("CategoryId");
+
                     b.HasIndex("EquipmentId");
+
+                    b.HasIndex("NinjaId", "EquipmentId", "CategoryId")
+                        .IsUnique();
 
                     b.ToTable("Inventories");
 
@@ -106,19 +162,19 @@ namespace ninjawebsite.Migrations
                         {
                             NinjaId = 1,
                             EquipmentId = 1,
-                            Quantity = 1
+                            CategoryId = 5
                         },
                         new
                         {
                             NinjaId = 2,
                             EquipmentId = 2,
-                            Quantity = 1
+                            CategoryId = 2
                         },
                         new
                         {
                             NinjaId = 1,
                             EquipmentId = 3,
-                            Quantity = 1
+                            CategoryId = 3
                         });
                 });
 
@@ -198,19 +254,38 @@ namespace ninjawebsite.Migrations
                         });
                 });
 
+            modelBuilder.Entity("ninjawebsite.Models.Equipment", b =>
+                {
+                    b.HasOne("ninjawebsite.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("ninjawebsite.Models.Inventory", b =>
                 {
+                    b.HasOne("ninjawebsite.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("ninjawebsite.Models.Equipment", "Equipment")
                         .WithMany("Inventory")
                         .HasForeignKey("EquipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("ninjawebsite.Models.Ninja", "Ninja")
                         .WithMany("Inventory")
                         .HasForeignKey("NinjaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Category");
 
                     b.Navigation("Equipment");
 

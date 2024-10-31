@@ -17,12 +17,12 @@ namespace ninjawebsite.Controllers
         {
             var shops = await _shopRepository.GetAllShopsAsync();
 
-            //var shopViewModels = shops.Select(s => new ShopsViewModel
-            //{
+            var shopViewModels = shops.Select(s => new ShopsViewModel
+            {
+                Id = s.Id,
+            });
 
-            //});
-
-            return View(shops);
+            return View(shopViewModels);
         }
 
     }

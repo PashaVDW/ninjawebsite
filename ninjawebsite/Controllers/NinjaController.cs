@@ -25,8 +25,8 @@ namespace ninjawebsite.Controllers
             var ninjaViewModels = ninjas.Select(n => new NinjaViewModel
             {
                 Id = n.Id,
-                Naam = n.Naam,
-                Goud = n.Goud
+                Name = n.Name,
+                Gold = n.Gold
             }).ToList();
 
             return View(ninjaViewModels);
@@ -43,8 +43,8 @@ namespace ninjawebsite.Controllers
             var ninjaViewModel = new NinjaViewModel
             {
                 Id = ninja.Id,
-                Naam = ninja.Naam,
-                Goud = ninja.Goud
+                Name = ninja.Name,
+                Gold = ninja.Gold
             };
 
             return View(ninjaViewModel);

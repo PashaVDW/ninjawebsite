@@ -28,25 +28,25 @@ public class NinjaContext : DbContext
             .HasForeignKey(i => i.EquipmentId);
 
         modelBuilder.Entity<Ninja>().HasData(
-            new Ninja { Id = 1, Naam = "Ryu", Goud = 100 },
-            new Ninja { Id = 2, Naam = "Ken", Goud = 150 }
+            new Ninja { Id = 1, Name = "Ryu", Gold = 100 },
+            new Ninja { Id = 2, Name = "Ken", Gold = 150 }
         );
 
         modelBuilder.Entity<Equipment>().HasData(
-            new Equipment { Id = 1, Naam = "Katana", WaardeGoud = 50, Categorie = Categorie.Hand, Strength = 10, Intelligence = 0, Agility = 5 },
-            new Equipment { Id = 2, Naam = "Helm", WaardeGoud = 30, Categorie = Categorie.Head, Strength = 5, Intelligence = 0, Agility = 2 },
-            new Equipment { Id = 3, Naam = "Harnas", WaardeGoud = 75, Categorie = Categorie.Chest, Strength = 20, Intelligence = 0, Agility = -2 }
+            new Equipment { Id = 1, Name = "Katana", GoldValue = 50, Category = Category.Hand, Strength = 10, Intelligence = 0, Agility = 5 },
+            new Equipment { Id = 2, Name = "Helmet", GoldValue = 30, Category = Category.Head, Strength = 5, Intelligence = 0, Agility = 2 },
+            new Equipment { Id = 3, Name = "Armor", GoldValue = 75, Category = Category.Chest, Strength = 20, Intelligence = 0, Agility = -2 }
         );
 
         modelBuilder.Entity<Inventory>().HasData(
-            new Inventory { NinjaId = 1, EquipmentId = 1, Aantal = 1 },
-            new Inventory { NinjaId = 2, EquipmentId = 2, Aantal = 1 },
-            new Inventory { NinjaId = 1, EquipmentId = 3, Aantal = 1 }
+            new Inventory { NinjaId = 1, EquipmentId = 1, Quantity = 1 },
+            new Inventory { NinjaId = 2, EquipmentId = 2, Quantity = 1 },
+            new Inventory { NinjaId = 1, EquipmentId = 3, Quantity = 1 }
         );
 
         modelBuilder.Entity<Shop>().HasData(
-            new Shop { Id = 1, NinjaId = 1, EquipmentId = 2, IsBeschikbaar = true },
-            new Shop { Id = 2, NinjaId = 2, EquipmentId = 3, IsBeschikbaar = false }
+            new Shop { Id = 1, NinjaId = 1, EquipmentId = 2, IsAvailable = true },
+            new Shop { Id = 2, NinjaId = 2, EquipmentId = 3, IsAvailable = false }
         );
 
         base.OnModelCreating(modelBuilder);

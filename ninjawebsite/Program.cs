@@ -14,6 +14,7 @@ builder.Services.AddControllersWithViews();
 
 // Voeg de repository toe aan de dependency-injectiecontainer
 builder.Services.AddScoped<INinjaRepository, NinjaRepository>();
+builder.Services.AddScoped<IShopRepository, ShopRepository>();
 
 // Build de applicatie
 var app = builder.Build();

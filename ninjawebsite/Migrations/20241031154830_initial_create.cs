@@ -7,7 +7,7 @@
 namespace ninjawebsite.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class initial_create : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -18,9 +18,9 @@ namespace ninjawebsite.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Naam = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    WaardeGoud = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
-                    Categorie = table.Column<int>(type: "int", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GoldValue = table.Column<decimal>(type: "decimal(18,2)", nullable: false),
+                    Category = table.Column<int>(type: "int", nullable: false),
                     Strength = table.Column<int>(type: "int", nullable: false),
                     Intelligence = table.Column<int>(type: "int", nullable: false),
                     Agility = table.Column<int>(type: "int", nullable: false)
@@ -36,8 +36,8 @@ namespace ninjawebsite.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Naam = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Goud = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Gold = table.Column<decimal>(type: "decimal(18,2)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -50,7 +50,7 @@ namespace ninjawebsite.Migrations
                 {
                     NinjaId = table.Column<int>(type: "int", nullable: false),
                     EquipmentId = table.Column<int>(type: "int", nullable: false),
-                    Aantal = table.Column<int>(type: "int", nullable: false)
+                    Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -77,7 +77,7 @@ namespace ninjawebsite.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NinjaId = table.Column<int>(type: "int", nullable: false),
                     EquipmentId = table.Column<int>(type: "int", nullable: false),
-                    IsBeschikbaar = table.Column<bool>(type: "bit", nullable: false)
+                    IsAvailable = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -98,17 +98,17 @@ namespace ninjawebsite.Migrations
 
             migrationBuilder.InsertData(
                 table: "Equipments",
-                columns: new[] { "Id", "Agility", "Categorie", "Intelligence", "Naam", "Strength", "WaardeGoud" },
+                columns: new[] { "Id", "Agility", "Category", "GoldValue", "Intelligence", "Name", "Strength" },
                 values: new object[,]
                 {
-                    { 1, 5, 2, 0, "Katana", 10, 50m },
-                    { 2, 2, 0, 0, "Helm", 5, 30m },
-                    { 3, -2, 1, 0, "Harnas", 20, 75m }
+                    { 1, 5, 2, 50m, 0, "Katana", 10 },
+                    { 2, 2, 0, 30m, 0, "Helmet", 5 },
+                    { 3, -2, 1, 75m, 0, "Armor", 20 }
                 });
 
             migrationBuilder.InsertData(
                 table: "Ninjas",
-                columns: new[] { "Id", "Goud", "Naam" },
+                columns: new[] { "Id", "Gold", "Name" },
                 values: new object[,]
                 {
                     { 1, 100m, "Ryu" },
@@ -117,7 +117,7 @@ namespace ninjawebsite.Migrations
 
             migrationBuilder.InsertData(
                 table: "Inventories",
-                columns: new[] { "EquipmentId", "NinjaId", "Aantal" },
+                columns: new[] { "EquipmentId", "NinjaId", "Quantity" },
                 values: new object[,]
                 {
                     { 1, 1, 1 },
@@ -127,7 +127,7 @@ namespace ninjawebsite.Migrations
 
             migrationBuilder.InsertData(
                 table: "Shops",
-                columns: new[] { "Id", "EquipmentId", "IsBeschikbaar", "NinjaId" },
+                columns: new[] { "Id", "EquipmentId", "IsAvailable", "NinjaId" },
                 values: new object[,]
                 {
                     { 1, 2, true, 1 },

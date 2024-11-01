@@ -1,0 +1,45 @@
+﻿@{
+    ViewData["Title"] = "Create Equipment";
+}
+
+<h2 class="text-2xl font-semibold mb-4">Create Equipment</h2>
+
+<form method="post" asp-action="CreateEquipment" class="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-md">
+    <div class="mb-4">
+        <label for="name" class="block text-gray-700">Name</label>
+        <input type="text" id="name" name="name" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+    </div>
+
+    <div class="mb-4">
+        <label for="goldValue" class="block text-gray-700">Gold Value</label>
+        <input type="number" id="goldValue" name="goldValue" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+    </div>
+    
+    <div class="mb-4">
+        <select id="categoryId" name="categoryId" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+            @foreach (var category in ViewBag.categories)
+            {
+                <option value="@category.Id">@category.Name</option>
+            }
+        </select> 
+    </div>
+
+    <div class="mb-4">
+        <label for="strength" class="block text-gray-700">Strength</label>
+        <input type="number" id="strength" name="strength" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+    </div>
+
+    <div class="mb-4">
+        <label for="intelligence" class="block text-gray-700">Intelligence</label>
+        <input type="number" id="intelligence" name="intelligence" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+    </div>
+
+    <div class="mb-4">
+        <label for="agility" class="block text-gray-700">Agility</label>
+        <input type="number" id="agility" name="agility" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+    </div>
+
+    <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-md">
+        Create Equipment
+    </button>
+</form>

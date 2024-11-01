@@ -5,7 +5,10 @@ namespace ninjawebsite.Interfaces
     public interface IInventoryRepository
     {
         Task<IEnumerable<Inventory>> GetAllInventoriesAsync();
-        Task<Inventory> GetInventoryByIdAsync(int id);
-        Task AddInvertoryAsync(Inventory inventory);
+        Task<Inventory> GetInventoryByEquipmentAndNinjaIdAsync(int EqId, int ninjaId);
+        Task AddInventoryAsync(Inventory inventory);
+        Task DeleteInventoryAsync(Inventory inventory);
+
+
     }
 }

@@ -19,5 +19,24 @@ namespace ninjawebsite.Repositories
         {
             return await _context.Equipments.FindAsync(id);
         }
+        public async Task<Equipment> CreateEquipment(string name, int goldValue, int categoryId, int strength, int intelligence, int agility)
+        {
+            if (name.Length > 255 || goldValue > int.MaxValue || strength > int.MaxValue || intelligence > int.MaxValue || agility > int.MaxValue)
+            {
+                return null;
+            }
+            Equipment equipment = new Equipment()
+            {
+                Name = name,
+                GoldValue = goldValue,
+                CategoryId = categoryId,
+                Strength = strength,
+                Intelligence = intelligence,
+                Agility = agility
+            };
+            _context.Equipments.Add(equipment);
+            await _context.SaveChangesAsync();
+            return equipment;
+        }
     }
 }

@@ -21,7 +21,7 @@
             return await _context.Ninjas.ToListAsync();
         }
 
-        public async Task<Ninja> GetNinjaByIdAsync(int id)
+        public async Task<Ninja> GetNinjaById(int id)
         {
             return await _context.Ninjas.FindAsync(id);
         }
@@ -64,6 +64,23 @@
                 await _context.SaveChangesAsync();
             }
         }
-    }
 
+        public Equipment GetEquipmentForNinja(int id, int categoryId)
+        {
+            var ninja = GetNinjaById(id);
+
+            return (from i in _context.Inventories
+                    join e in _context.Equipments on i.EquipmentId equals e.Id
+                    where i.NinjaId == id && e.CategoryId == categoryId
+                    select e).FirstOrDefault();
+        }
+
+        public Equipment GetHeadEquipmentForNinja(int id) => GetEquipmentForNinja(id, 1);
+        public Equipment GetChestEquipmentForNinja(int id) => GetEquipmentForNinja(id, 2);
+        public Equipment GetHandEquipmentForNinja(int id) => GetEquipmentForNinja(id, 3);
+        public Equipment GetFeetEquipmentForNinja(int id) => GetEquipmentForNinja(id, 4);
+        public Equipment GetRingEquipmentForNinja(int id) => GetEquipmentForNinja(id, 5);
+        public Equipment GetNecklaceEquipmentForNinja(int id) => GetEquipmentForNinja(id, 6);
+
+    }
 }

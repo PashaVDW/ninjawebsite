@@ -25,7 +25,7 @@ namespace ninjawebsite.Controllers
         {
             var shops = await _shopRepository.GetAllShopsAsync();
             var equipment = await _equipmentRepository.GetAllEquipmentAsync();
-            var ninja = await _ninjaRepository.GetNinjaByIdAsync(ninjaId);
+            var ninja = await _ninjaRepository.GetNinjaById(ninjaId);
             var categories = await _categoriesRepository.GetAllCategoriesAsync();
 
             var shopViewModels = shops
@@ -58,7 +58,7 @@ namespace ninjawebsite.Controllers
         {
             var shop = await _shopRepository.GetShopByIdAsync(id);
             var equipment = await _equipmentRepository.GetEquipmentByIdAsync(shop.EquipmentId);
-            var ninja = await _ninjaRepository.GetNinjaByIdAsync(ninjaId);
+            var ninja = await _ninjaRepository.GetNinjaById(ninjaId);
 
             if (equipment.GoldValue <= ninja.Gold)
             {
@@ -91,7 +91,7 @@ namespace ninjawebsite.Controllers
         public async Task<IActionResult> Sell(int id, int ninjaId = 1)
         {
             var shop = await _shopRepository.GetShopByIdAsync(id);
-            var ninja = await _ninjaRepository.GetNinjaByIdAsync(ninjaId);
+            var ninja = await _ninjaRepository.GetNinjaById(ninjaId);
             var equipment = await _equipmentRepository.GetEquipmentByIdAsync(shop.EquipmentId);
             var inventory = await _inventoryRepository.GetInventoryByEquipmentAndNinjaIdAsync(shop.EquipmentId, ninjaId);
 

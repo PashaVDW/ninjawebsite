@@ -5,6 +5,7 @@ namespace ninjawebsite.Controllers
     using Microsoft.AspNetCore.Mvc;
     using ninjawebsite.Interfaces;
     using ninjawebsite.Models;
+    using ninjawebsite.Repositories;
     using ninjawebsite.ViewModels;
     using System.Collections.Generic;
     using System.Linq;
@@ -28,7 +29,7 @@ namespace ninjawebsite.Controllers
             {
                 Id = n.Id,
                 Name = n.Name,
-                Gold = n.Gold
+                Gold = n.Gold,
             }).ToList();
 
             return View(ninjaViewModels);
@@ -44,11 +45,33 @@ namespace ninjawebsite.Controllers
         {
             return View();
         }
+        public async Task<NinjaViewModel> GetNinjaWithEquipment(int id)
+        {
+            var ninja = await _ninjaRepository.GetNinjaById(id);
+
+            if (ninja == null)
+            {
+                return null;
+            }
+
+            return new NinjaViewModel
+            {
+                Id = ninja.Id,
+                Name = ninja.Name,
+                Gold = ninja.Gold,
+                HeadEquipment = _ninjaRepository.GetHeadEquipmentForNinja(id),
+                ChestEquipment = _ninjaRepository.GetChestEquipmentForNinja(id),
+                HandEquipment = _ninjaRepository.GetHandEquipmentForNinja(id),
+                FeetEquipment = _ninjaRepository.GetFeetEquipmentForNinja(id),
+                RingEquipment = _ninjaRepository.GetRingEquipmentForNinja(id),
+                NecklaceEquipment = _ninjaRepository.GetNecklaceEquipmentForNinja(id)
+            };
+        }
 
         [HttpPost]
         public async Task<IActionResult> EditNinja(NinjaViewModel model)
         {
-            var ninja = await _ninjaRepository.GetNinjaByIdAsync(model.Id);
+            var ninja = await _ninjaRepository.GetNinjaById(model.Id);
             if (ninja == null)
             {
                 return NotFound();
@@ -64,7 +87,7 @@ namespace ninjawebsite.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
-            var ninja = await _ninjaRepository.GetNinjaByIdAsync(id);
+            var ninja = await _ninjaRepository.GetNinjaById(id);
             if (ninja == null)
             {
                 return NotFound();
@@ -82,18 +105,12 @@ namespace ninjawebsite.Controllers
 
         public async Task<IActionResult> Details(int id)
         {
-            var ninja = await _ninjaRepository.GetNinjaByIdAsync(id);
-            if (ninja == null)
+            var ninjaViewModel = await GetNinjaWithEquipment(id);
+
+            if (ninjaViewModel == null)
             {
                 return NotFound();
             }
-
-            var ninjaViewModel = new NinjaViewModel
-            {
-                Id = ninja.Id,
-                Name = ninja.Name,
-                Gold = ninja.Gold
-            };
 
             return View(ninjaViewModel);
         }
@@ -101,7 +118,7 @@ namespace ninjawebsite.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int id)
         {
-            var ninja = await _ninjaRepository.GetNinjaByIdAsync(id);
+            var ninja = await _ninjaRepository.GetNinjaById(id);
             if (ninja == null)
             {
                 return NotFound();
@@ -110,7 +127,6 @@ namespace ninjawebsite.Controllers
             await _ninjaRepository.DeleteNinjaAsync(id);
             return RedirectToAction("Index");
         }
-
     }
 
 }

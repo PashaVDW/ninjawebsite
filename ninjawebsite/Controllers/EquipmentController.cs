@@ -22,7 +22,7 @@ namespace ninjawebsite.Controllers
         public async Task<IActionResult> Index(int ninjaId = 1, int categoryId = 0)
         {
             var createEquipment = await _equipmentRepository.GetAllEquipmentAsync();
-            var ninja = await _ninjaRepository.GetNinjaByIdAsync(ninjaId);
+            var ninja = await _ninjaRepository.GetNinjaById(ninjaId);
             var categories = await _categoriesRepository.GetAllCategoriesAsync();
 
             var EquipmentViewModels = createEquipment.Select(e => new EquipmentViewModel

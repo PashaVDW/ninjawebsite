@@ -35,7 +35,6 @@ namespace ninjawebsite.Controllers
             await _ninjaRepository.CreateNinja(name, gold);
             return RedirectToAction("Create");
         }
-
         public async Task<IActionResult> Create()
         {
             return View();
@@ -120,6 +119,7 @@ namespace ninjawebsite.Controllers
             }
 
             await _ninjaRepository.DeleteNinjaAsync(id);
+            TempData["ToastMessage"] = "You sold all your inventory";
             return RedirectToAction("Index");
         }
 

@@ -38,5 +38,11 @@ namespace ninjawebsite.Repositories
             await _context.SaveChangesAsync();
             return equipment;
         }
+        public async Task<Equipment> UpdateEquipment(Equipment equipment)
+        {
+            _context.Equipments.Update(equipment);
+            await _context.SaveChangesAsync();
+            return equipment;
+        }
     }
 }

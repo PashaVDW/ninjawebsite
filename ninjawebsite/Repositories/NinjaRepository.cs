@@ -25,6 +25,7 @@
         {
             return await _context.Ninjas.FindAsync(id);
         }
+
         public async Task UpdateNinja(Ninja ninja)
         {
             _context.Ninjas.Update(ninja);
@@ -63,7 +64,6 @@
                 await _context.SaveChangesAsync();
             }
         }
-
     }
 
 }

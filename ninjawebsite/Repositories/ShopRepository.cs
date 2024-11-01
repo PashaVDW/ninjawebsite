@@ -15,5 +15,20 @@ namespace ninjawebsite.Repositories
         {
             return await _context.Shops.ToListAsync();
         }
+        public async Task<Shop> GetShopByIdAsync(int id)
+        {
+            return await _context.Shops.FindAsync(id);
+        }
+        public async Task AddShopAsync(Shop shop)
+        {
+            _context.Shops.Add(shop);
+            await _context.SaveChangesAsync();
+        }
+        public async Task UpdateShopAsync(Shop shop)
+        {
+            _context.Shops.Update(shop);
+            await _context.SaveChangesAsync();
+        }
+
     }
 }

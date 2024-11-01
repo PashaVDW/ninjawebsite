@@ -34,11 +34,12 @@
                     </p>
                     @if (shopItem.IsAvailable)
                     {
-                        <a asp-action="Buy" asp-route-id="@shopItem.Id">Buy</a>
-                    } else
+                        <a asp-action="Buy" asp-route-id="@shopItem.Id" asp-route-ninjaId="@ViewBag.ninja.Id">Buy</a>
+                    }
+                    else
                     {
                         <p>Already bought</p>
-                        <a asp-action="Sell" asp-route-id="@shopItem.Id">Sell</a>
+                        <a asp-action="Sell" asp-route-id="@shopItem.Id" asp-route-ninjaId="@ViewBag.ninja.Id">Sell</a>
                     }
                 </div>
             </div>

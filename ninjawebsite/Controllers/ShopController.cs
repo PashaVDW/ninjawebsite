@@ -21,11 +21,18 @@ namespace ninjawebsite.Controllers
             _inventoryRepository = inventoryRepository;
             _categoriesRepository = categoriesRepository;
         }
-        public async Task<IActionResult> Index(int ninjaId = 1, int categoryId = 0)
+        public async Task<IActionResult> Index(int ninjaId)
         {
+            var ninja = await _ninjaRepository.GetNinjaById(ninjaId);
+            if (ninja == null)
+            {
+                TempData["ToastMessage"] = "Ninja not found!";
+                TempData["ToastType"] = "error";
+                return RedirectToAction("Index", "Ninja");
+            }
+
             var shops = await _shopRepository.GetAllShopsAsync();
             var equipment = await _equipmentRepository.GetAllEquipmentAsync();
-            var ninja = await _ninjaRepository.GetNinjaById(ninjaId);
             var categories = await _categoriesRepository.GetAllCategoriesAsync();
 
             var shopViewModels = shops
@@ -44,17 +51,20 @@ namespace ninjawebsite.Controllers
                           CategoryId = e.CategoryId
                       })
                 .ToList();
-            if (categoryId != 0)
+
+            if (!shopViewModels.Any())
             {
-                shopViewModels = shopViewModels.Where(vm => vm.CategoryId == categoryId).ToList();
+                TempData["ToastMessage"] = "No items available for this ninja.";
+                TempData["ToastType"] = "info";
             }
-            ViewBag.selectedCategoryId = categoryId;
+
             ViewBag.ninja = ninja;
             ViewBag.categories = categories;
 
             return View(shopViewModels);
         }
-        public async Task<IActionResult> Buy(int id, int ninjaId = 1)
+
+        public async Task<IActionResult> Buy(int id, int ninjaId)
         {
             var shop = await _shopRepository.GetShopByIdAsync(id);
             var equipment = await _equipmentRepository.GetEquipmentByIdAsync(shop.EquipmentId);
@@ -62,8 +72,7 @@ namespace ninjawebsite.Controllers
 
             if (equipment.GoldValue <= ninja.Gold)
             {
-                var newGoldAmount = ninja.Gold - equipment.GoldValue;
-                ninja.Gold = newGoldAmount;
+                ninja.Gold -= equipment.GoldValue;
                 await _ninjaRepository.UpdateNinja(ninja);
 
                 await _inventoryRepository.AddInventoryAsync(new Inventory
@@ -75,7 +84,8 @@ namespace ninjawebsite.Controllers
 
                 shop.IsAvailable = false;
                 await _shopRepository.UpdateShopAsync(shop);
-                TempData["ToastMessage"] = "You bought " + equipment.Name;
+
+                TempData["ToastMessage"] = $"You bought {equipment.Name}";
                 TempData["ToastType"] = "success";
             }
             else
@@ -83,12 +93,14 @@ namespace ninjawebsite.Controllers
                 TempData["ToastMessage"] = "You don't have enough gold!";
                 TempData["ToastType"] = "error";
             }
+
             TempData["ToastId"] = "BuyMessage";
             TempData["AutoHide"] = "yes";
             TempData["MilSecHide"] = 3000;
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { ninjaId });
         }
-        public async Task<IActionResult> Sell(int id, int ninjaId = 1)
+
+        public async Task<IActionResult> Sell(int id, int ninjaId)
         {
             var shop = await _shopRepository.GetShopByIdAsync(id);
             var ninja = await _ninjaRepository.GetNinjaById(ninjaId);
@@ -103,12 +115,12 @@ namespace ninjawebsite.Controllers
             shop.IsAvailable = true;
             await _shopRepository.UpdateShopAsync(shop);
 
-            TempData["ToastMessage"] = "You sold " + equipment.Name;
+            TempData["ToastMessage"] = $"You sold {equipment.Name}";
             TempData["ToastType"] = "success";
             TempData["ToastId"] = "SellMessage";
             TempData["AutoHide"] = "yes";
             TempData["MilSecHide"] = 3000;
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", new { ninjaId });
         }
     }
 }

@@ -56,10 +56,20 @@ namespace ninjawebsite.Controllers
         }
         public async Task<IActionResult> Buy(int id, int ninjaId = 1)
         {
+            TempData["ToastId"] = "BuyMessage";
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 3000;
             var shop = await _shopRepository.GetShopByIdAsync(id);
             var equipment = await _equipmentRepository.GetEquipmentByIdAsync(shop.EquipmentId);
             var ninja = await _ninjaRepository.GetNinjaById(ninjaId);
+            var inventorys = await _inventoryRepository.GetAllInventoriesAsync();
 
+            if (inventorys.Where(i => i.CategoryId == equipment.CategoryId && i.NinjaId == ninjaId) != null)
+            {
+                TempData["ToastMessage"] = "You already have one width this category. Sell that one to buy this!";
+                TempData["ToastType"] = "error";
+                return RedirectToAction("Index");
+            }
             if (equipment.GoldValue <= ninja.Gold)
             {
                 var newGoldAmount = ninja.Gold - equipment.GoldValue;
@@ -83,9 +93,7 @@ namespace ninjawebsite.Controllers
                 TempData["ToastMessage"] = "You don't have enough gold!";
                 TempData["ToastType"] = "error";
             }
-            TempData["ToastId"] = "BuyMessage";
-            TempData["AutoHide"] = "yes";
-            TempData["MilSecHide"] = 3000;
+
             return RedirectToAction("Index");
         }
         public async Task<IActionResult> Sell(int id, int ninjaId = 1)

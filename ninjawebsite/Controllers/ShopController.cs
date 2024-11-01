@@ -21,7 +21,7 @@ namespace ninjawebsite.Controllers
             _inventoryRepository = inventoryRepository;
             _categoriesRepository = categoriesRepository;
         }
-        public async Task<IActionResult> Index(int ninjaId = 1)
+        public async Task<IActionResult> Index(int ninjaId = 1, int categoryId = 0)
         {
             var shops = await _shopRepository.GetAllShopsAsync();
             var equipment = await _equipmentRepository.GetAllEquipmentAsync();
@@ -40,10 +40,15 @@ namespace ninjawebsite.Controllers
                           Name = e.Name,
                           Gold = e.GoldValue,
                           IsAvailable = s.IsAvailable,
-                          CategoryName = e.Category.Name
+                          CategoryName = e.Category.Name,
+                          CategoryId = e.CategoryId
                       })
                 .ToList();
-
+            if (categoryId != 0)
+            {
+                shopViewModels = shopViewModels.Where(vm => vm.CategoryId == categoryId).ToList();
+            }
+            ViewBag.selectedCategoryId = categoryId;
             ViewBag.ninja = ninja;
             ViewBag.categories = categories;
 
@@ -83,31 +88,24 @@ namespace ninjawebsite.Controllers
             TempData["MilSecHide"] = 3000;
             return RedirectToAction("Index");
         }
-        [HttpPost]
-        public async Task<IActionResult> FilterByCategory(int categoryId, int ninjaId = 1)
-        {
-            var shops = await _shopRepository.GetAllShopsAsync();
-            var equipment = await _equipmentRepository.GetAllEquipmentAsync();
-            var categories = await _categoriesRepository.GetAllCategoriesAsync();
+        //public async Task Task<IActionResult> Sell(int id, int ninjaId = 1)
+        //{
+        //    var inventory = await _inventoryRepository.GetInventoryByIdAsync(id);
+        //    var ninja = await _ninjaRepository.GetNinjaByIdAsync(ninjaId);
+        //    var equipment = await _equipmentRepository.GetEquipmentByIdAsync(inventory.EquipmentId);
 
-            var filteredShops = shops
-                .Where(s => s.Equipment != null && s.Equipment.CategoryId == categoryId && s.NinjaId == ninjaId)
-                .Join(equipment,
-                      s => s.EquipmentId,
-                      e => e.Id,
-                      (s, e) => new ShopsViewModel
-                      {
-                          Id = s.Id,
-                          EqId = e.Id,
-                          Name = e.Name,
-                          Gold = e.GoldValue,
-                          IsAvailable = s.IsAvailable,
-                          CategoryName = e.Category.Name
-                      })
-                .ToList();
+        //    ninja.Gold += equipment.GoldValue;
+        //    await _ninjaRepository.UpdateNinjaAsync(ninja);
 
-            return View("Index", filteredShops);
-        }
+        //    await _inventoryRepository.DeleteInventoryAsync(inventory);
+
+        //    TempData["ToastMessage"] = "You sold " + equipment.Name;
+        //    TempData["ToastType"] = "success";
+        //    TempData["ToastId"] = "SellMessage";
+        //    TempData["AutoHide"] = "yes";
+        //    TempData["MilSecHide"] = 3000;
+        //    return RedirectToAction("Index");
+        //}
 
 
     }

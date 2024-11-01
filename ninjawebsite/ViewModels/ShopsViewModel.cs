@@ -8,5 +8,6 @@
         public string CategoryName { get; set; }
         public decimal Gold { get; set; }
         public bool IsAvailable { get; set; }
+        public int CategoryId { get; set; }
     }
 }

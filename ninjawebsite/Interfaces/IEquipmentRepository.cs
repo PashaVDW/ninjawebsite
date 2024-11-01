@@ -8,5 +8,6 @@ namespace ninjawebsite.Interfaces
         Task<Equipment> GetEquipmentByIdAsync(int id);
 
         Task<Equipment> CreateEquipment(string name, int goldValue, int categoryId, int strength, int intelligence, int agility);
+        Task<Equipment> UpdateEquipment(Equipment equipment);
     }
 }

@@ -1,5 +1,4 @@
-﻿
-
+﻿@model EquipmentViewModel
 @{
     ViewData["Title"] = "Edit Equipment";
 }
@@ -22,10 +21,16 @@
     <div class="mb-4">
         <label for="categoryId" class="block text-gray-700">Category</label>
         <select id="categoryId" name="categoryId" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-            @foreach (var category in ViewBag.categories)
-            {
-               
-            }
+                @foreach (var category in ViewBag.categories)
+                {
+                    if ( category.Id == ViewBag.selectedCategoryId)
+                    {
+                        <option value="@category.Id" selected>@category.Name</option>
+                    } else
+                    {
+                        <option value="@category.Id">@category.Name</option>
+                    }
+                }
         </select> 
     </div>
 
@@ -43,7 +48,19 @@
         <label for="agility" class="block text-gray-700">Agility</label>
         <input type="number" id="agility" name="agility" value="@Model.Agility" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
     </div>
-
+    <div class="mb-4">
+        <select id="addToShop" name="addToShop" required class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+            @if (Model.AddToShop == true)
+            {
+                <option value="True" selected>Yes</option>
+                <option value="False">No</option>
+            } else
+            {
+                <option value="True">Yes</option>
+                <option value="False" selected>No</option>
+            }
+        </select>
+    </div>
     <button type="submit" class="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 rounded-md">
         Update Equipment
     </button>

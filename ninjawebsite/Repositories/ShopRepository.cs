@@ -29,6 +29,15 @@ namespace ninjawebsite.Repositories
             _context.Shops.Update(shop);
             await _context.SaveChangesAsync();
         }
-
+        public async Task CreateShopById(int ninjaId, int equipmentId)
+        {
+            var shop = new Shop
+            {
+                NinjaId = ninjaId,
+                EquipmentId = equipmentId,
+                IsAvailable = true
+            };
+            await AddShopAsync(shop);
+        }
     }
 }

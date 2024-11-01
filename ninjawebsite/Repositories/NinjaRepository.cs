@@ -79,13 +79,30 @@
         {
             var ninjaInventory = await _context.Inventories
                 .Where(i => i.NinjaId == ninjaId)
+                .Include(i => i.Equipment)
                 .ToListAsync();
 
             if (ninjaInventory.Any())
             {
+                var totalGoldValue = ninjaInventory.Sum(i => i.Equipment.GoldValue);
+
+                var ninja = await _context.Ninjas.FindAsync(ninjaId);
+                if (ninja != null)
+                {
+                    ninja.Gold += totalGoldValue;
+                }
+
                 _context.Inventories.RemoveRange(ninjaInventory);
+
                 await _context.SaveChangesAsync();
             }
+        }
+        public async Task<List<Equipment>> GetAllEquipmentForNinja(int ninjaId)
+        {
+            return await (from i in _context.Inventories
+                          join e in _context.Equipments on i.EquipmentId equals e.Id
+                          where i.NinjaId == ninjaId
+                          select e).ToListAsync();
         }
 
         public Equipment GetHeadEquipmentForNinja(int id) => GetEquipmentForNinja(id, 1);

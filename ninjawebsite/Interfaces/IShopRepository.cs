@@ -8,5 +8,6 @@ namespace ninjawebsite.Interfaces
         Task<Shop> GetShopByIdAsync(int id);
         Task AddShopAsync(Shop shop);
         Task UpdateShopAsync(Shop shop);
+        Task CreateShopById(int ninjaId, int equipmentId);
     }
 }

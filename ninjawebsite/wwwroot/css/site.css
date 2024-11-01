@@ -36,8 +36,9 @@ body {
     }
 
 .item-card {
-    background-color: #4a4a4a;
-    border-radius: 12px;
+    background-color: #6eb4ff;
+    border-radius: 0px;
+    border: 3px solid #84bdfa;
     overflow: hidden;
 }
 
@@ -47,7 +48,7 @@ body {
     }
 
     .item-card .item-info {
-        background-color: rgba(0, 0, 0, 0.5);
+        background-color: rgba(0, 0, 50, 0.3);
         color: white;
         padding: 5px;
         text-align: center;

@@ -66,7 +66,7 @@ namespace ninjawebsite.Controllers
                 ninja.Gold = newGoldAmount;
                 await _ninjaRepository.UpdateNinja(ninja);
 
-                await _inventoryRepository.AddInvertoryAsync(new Inventory
+                await _inventoryRepository.AddInventoryAsync(new Inventory
                 {
                     EquipmentId = equipment.Id,
                     NinjaId = ninja.Id,
@@ -88,25 +88,27 @@ namespace ninjawebsite.Controllers
             TempData["MilSecHide"] = 3000;
             return RedirectToAction("Index");
         }
-        //public async Task Task<IActionResult> Sell(int id, int ninjaId = 1)
-        //{
-        //    var inventory = await _inventoryRepository.GetInventoryByIdAsync(id);
-        //    var ninja = await _ninjaRepository.GetNinjaByIdAsync(ninjaId);
-        //    var equipment = await _equipmentRepository.GetEquipmentByIdAsync(inventory.EquipmentId);
+        public async Task<IActionResult> Sell(int id, int ninjaId = 1)
+        {
+            var shop = await _shopRepository.GetShopByIdAsync(id);
+            var ninja = await _ninjaRepository.GetNinjaByIdAsync(ninjaId);
+            var equipment = await _equipmentRepository.GetEquipmentByIdAsync(shop.EquipmentId);
+            var inventory = await _inventoryRepository.GetInventoryByEquipmentAndNinjaIdAsync(shop.EquipmentId, ninjaId);
 
-        //    ninja.Gold += equipment.GoldValue;
-        //    await _ninjaRepository.UpdateNinjaAsync(ninja);
+            ninja.Gold += equipment.GoldValue;
+            await _ninjaRepository.UpdateNinja(ninja);
 
-        //    await _inventoryRepository.DeleteInventoryAsync(inventory);
+            await _inventoryRepository.DeleteInventoryAsync(inventory);
 
-        //    TempData["ToastMessage"] = "You sold " + equipment.Name;
-        //    TempData["ToastType"] = "success";
-        //    TempData["ToastId"] = "SellMessage";
-        //    TempData["AutoHide"] = "yes";
-        //    TempData["MilSecHide"] = 3000;
-        //    return RedirectToAction("Index");
-        //}
+            shop.IsAvailable = true;
+            await _shopRepository.UpdateShopAsync(shop);
 
-
+            TempData["ToastMessage"] = "You sold " + equipment.Name;
+            TempData["ToastType"] = "success";
+            TempData["ToastId"] = "SellMessage";
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 3000;
+            return RedirectToAction("Index");
+        }
     }
 }

@@ -1,0 +1,41 @@
+﻿@model IEnumerable<EquipmentViewModel>
+<label for="category">Filter by Category:</label>
+<select id="category" onchange="location.href='/Equipment?categoryId=' + this.value">
+    <option value="0">All Categories</option>
+    @foreach (var category in ViewBag.categories)
+    {
+        if (category.Id == ViewBag.selectedCategoryId)
+        {
+            <option value="@category.Id" selected>@category.Name</option>
+        }
+        else
+        {
+            <option value="@category.Id">@category.Name</option>
+        }
+
+    }
+</select>
+
+<div class="p-4 container mx-auto">
+    <div class="gap-4 grid grid-cols-4">
+        @foreach (var equipment in Model)
+        {
+            <div class="item-card">
+                <img alt="@equipment.Name" height="150" width="150" />
+                <div class="item-info">
+                    <p>
+                        @equipment.Name
+                    </p>
+                    <p>@equipment.CategoryName</p>
+                    <p>
+                        <i class="fas fa-coins">
+                        </i>
+                        @equipment.GoldValue
+                    </p>
+                    <a asp-action="Show" asp-route-id="@equipment.Id">Show</a>
+                    <a asp-action="Edit" asp-route-id="@equipment.Id">Edit</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

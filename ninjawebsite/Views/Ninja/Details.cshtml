@@ -1,72 +1,85 @@
 ﻿@model NinjaViewModel
+<div class="relative">
+    <form asp-action="DeleteAllEquipment" method="post" class="absolute top-4 right-4" onsubmit="return confirmDelete()">
+        <input type="hidden" name="id" value="@Model.Id" />
+        <button type="submit" class="px-4 py-2 bg-red-600 text-white font-semibold rounded hover:bg-red-700 transition duration-200 shadow-md">
+            Delete All Equipment
+        </button>
+    </form>
 
-<div class="flex flex-col items-center p-4">
-    <div class="text-center mb-4">
-        <p><strong>Ninja:</strong> @Model.Name</p>
-        <p><strong>Gold in wallet:</strong> @Model.Gold </p>
-        <p>
-            <strong>Total Strength:</strong>
-            @(new[] { Model.HeadEquipment?.Strength ?? 0, Model.ChestEquipment?.Strength ?? 0, Model.HandEquipment?.Strength ?? 0, Model.FeetEquipment?.Strength ?? 0, Model.RingEquipment?.Strength ?? 0, Model.NecklaceEquipment?.Strength ?? 0 }.Sum())
-        </p>
-        <p>
-            <strong>Total Agility:</strong>
-            @(new[] { Model.HeadEquipment?.Agility ?? 0, Model.ChestEquipment?.Agility ?? 0, Model.HandEquipment?.Agility ?? 0, Model.FeetEquipment?.Agility ?? 0, Model.RingEquipment?.Agility ?? 0, Model.NecklaceEquipment?.Agility ?? 0 }.Sum())
-        </p>
-        <p>
-            <strong>Total Intelligence:</strong>
-            @(new[] { Model.HeadEquipment?.Intelligence ?? 0, Model.ChestEquipment?.Intelligence ?? 0, Model.HandEquipment?.Intelligence ?? 0, Model.FeetEquipment?.Intelligence ?? 0, Model.RingEquipment?.Intelligence ?? 0, Model.NecklaceEquipment?.Intelligence ?? 0 }.Sum())
-        </p>
-        <p>
-            <strong>Gear Value:</strong>
-            @(new[] { Model.HeadEquipment?.GoldValue ?? 0, Model.ChestEquipment?.GoldValue ?? 0, Model.HandEquipment?.GoldValue ?? 0, Model.FeetEquipment?.GoldValue ?? 0, Model.RingEquipment?.GoldValue ?? 0, Model.NecklaceEquipment?.GoldValue ?? 0 }.Sum())
-        </p>
-    </div>
-
-    <div class="flex justify-center items-center space-x-4">
-        <div class="space-y-4">
-            <div class="p-4 border-2 border-black bg-white shadow-lg">
-                <p><strong>Head:</strong> @(Model.HeadEquipment?.Name ?? "None")</p>
-                <p>Strength: @(Model.HeadEquipment?.Strength ?? 0)</p>
-                <p>Agility: @(Model.HeadEquipment?.Agility ?? 0)</p>
-                <p>Intelligence: @(Model.HeadEquipment?.Intelligence ?? 0)</p>
-            </div>
-            <div class="p-4 border-2 border-black bg-white shadow-lg">
-                <p><strong>Hands:</strong> @(Model.HandEquipment?.Name ?? "None")</p>
-                <p>Strength: @(Model.HandEquipment?.Strength ?? 0)</p>
-                <p>Agility: @(Model.HandEquipment?.Agility ?? 0)</p>
-                <p>Intelligence: @(Model.HandEquipment?.Intelligence ?? 0)</p>
-            </div>
-            <div class="p-4 border-2 border-black bg-white shadow-lg">
-                <p><strong>Feet:</strong> @(Model.FeetEquipment?.Name ?? "None")</p>
-                <p>Strength: @(Model.FeetEquipment?.Strength ?? 0)</p>
-                <p>Agility: @(Model.FeetEquipment?.Agility ?? 0)</p>
-                <p>Intelligence: @(Model.FeetEquipment?.Intelligence ?? 0)</p>
-            </div>
+    <div class="flex flex-col items-center p-4">
+        <div class="text-center mb-4">
+            <p><strong>Ninja:</strong> @Model.Name</p>
+            <p><strong>Gold in wallet:</strong> @Model.Gold </p>
+            <p>
+                <strong>Total Strength:</strong>
+                @(new[] { Model.HeadEquipment?.Strength ?? 0, Model.ChestEquipment?.Strength ?? 0, Model.HandEquipment?.Strength ?? 0, Model.FeetEquipment?.Strength ?? 0, Model.RingEquipment?.Strength ?? 0, Model.NecklaceEquipment?.Strength ?? 0 }.Sum())
+            </p>
+            <p>
+                <strong>Total Agility:</strong>
+                @(new[] { Model.HeadEquipment?.Agility ?? 0, Model.ChestEquipment?.Agility ?? 0, Model.HandEquipment?.Agility ?? 0, Model.FeetEquipment?.Agility ?? 0, Model.RingEquipment?.Agility ?? 0, Model.NecklaceEquipment?.Agility ?? 0 }.Sum())
+            </p>
+            <p>
+                <strong>Total Intelligence:</strong>
+                @(new[] { Model.HeadEquipment?.Intelligence ?? 0, Model.ChestEquipment?.Intelligence ?? 0, Model.HandEquipment?.Intelligence ?? 0, Model.FeetEquipment?.Intelligence ?? 0, Model.RingEquipment?.Intelligence ?? 0, Model.NecklaceEquipment?.Intelligence ?? 0 }.Sum())
+            </p>
+            <p>
+                <strong>Gear Value:</strong>
+                @(new[] { Model.HeadEquipment?.GoldValue ?? 0, Model.ChestEquipment?.GoldValue ?? 0, Model.HandEquipment?.GoldValue ?? 0, Model.FeetEquipment?.GoldValue ?? 0, Model.RingEquipment?.GoldValue ?? 0, Model.NecklaceEquipment?.GoldValue ?? 0 }.Sum())
+            </p>
         </div>
 
-        <div>
-            <img src="~/ninja_images/ninja.png" alt="Character" class="h-96 w-auto object-contain">
-        </div>
+        <div class="flex justify-center items-center space-x-4">
+            <div class="space-y-4">
+                <div class="p-4 border-2 border-black bg-white shadow-lg">
+                    <p><strong>Head:</strong> @(Model.HeadEquipment?.Name ?? "None")</p>
+                    <p>Strength: @(Model.HeadEquipment?.Strength ?? 0)</p>
+                    <p>Agility: @(Model.HeadEquipment?.Agility ?? 0)</p>
+                    <p>Intelligence: @(Model.HeadEquipment?.Intelligence ?? 0)</p>
+                </div>
+                <div class="p-4 border-2 border-black bg-white shadow-lg">
+                    <p><strong>Hands:</strong> @(Model.HandEquipment?.Name ?? "None")</p>
+                    <p>Strength: @(Model.HandEquipment?.Strength ?? 0)</p>
+                    <p>Agility: @(Model.HandEquipment?.Agility ?? 0)</p>
+                    <p>Intelligence: @(Model.HandEquipment?.Intelligence ?? 0)</p>
+                </div>
+                <div class="p-4 border-2 border-black bg-white shadow-lg">
+                    <p><strong>Feet:</strong> @(Model.FeetEquipment?.Name ?? "None")</p>
+                    <p>Strength: @(Model.FeetEquipment?.Strength ?? 0)</p>
+                    <p>Agility: @(Model.FeetEquipment?.Agility ?? 0)</p>
+                    <p>Intelligence: @(Model.FeetEquipment?.Intelligence ?? 0)</p>
+                </div>
+            </div>
 
-        <div class="space-y-4">
-            <div class="p-4 border-2 border-black bg-white shadow-lg">
-                <p><strong>Necklace:</strong> @(Model.NecklaceEquipment?.Name ?? "None")</p>
-                <p>Strength: @(Model.NecklaceEquipment?.Strength ?? 0)</p>
-                <p>Agility: @(Model.NecklaceEquipment?.Agility ?? 0)</p>
-                <p>Intelligence: @(Model.NecklaceEquipment?.Intelligence ?? 0)</p>
+            <div>
+                <img src="~/ninja_images/ninja.png" alt="Character" class="h-96 w-auto object-contain">
             </div>
-            <div class="p-4 border-2 border-black bg-white shadow-lg">
-                <p><strong>Chest:</strong> @(Model.ChestEquipment?.Name ?? "None")</p>
-                <p>Strength: @(Model.ChestEquipment?.Strength ?? 0)</p>
-                <p>Agility: @(Model.ChestEquipment?.Agility ?? 0)</p>
-                <p>Intelligence: @(Model.ChestEquipment?.Intelligence ?? 0)</p>
-            </div>
-            <div class="p-4 border-2 border-black bg-white shadow-lg">
-                <p><strong>Ring:</strong> @(Model.RingEquipment?.Name ?? "None")</p>
-                <p>Strength: @(Model.RingEquipment?.Strength ?? 0)</p>
-                <p>Agility: @(Model.RingEquipment?.Agility ?? 0)</p>
-                <p>Intelligence: @(Model.RingEquipment?.Intelligence ?? 0)</p>
+
+            <div class="space-y-4">
+                <div class="p-4 border-2 border-black bg-white shadow-lg">
+                    <p><strong>Necklace:</strong> @(Model.NecklaceEquipment?.Name ?? "None")</p>
+                    <p>Strength: @(Model.NecklaceEquipment?.Strength ?? 0)</p>
+                    <p>Agility: @(Model.NecklaceEquipment?.Agility ?? 0)</p>
+                    <p>Intelligence: @(Model.NecklaceEquipment?.Intelligence ?? 0)</p>
+                </div>
+                <div class="p-4 border-2 border-black bg-white shadow-lg">
+                    <p><strong>Chest:</strong> @(Model.ChestEquipment?.Name ?? "None")</p>
+                    <p>Strength: @(Model.ChestEquipment?.Strength ?? 0)</p>
+                    <p>Agility: @(Model.ChestEquipment?.Agility ?? 0)</p>
+                    <p>Intelligence: @(Model.ChestEquipment?.Intelligence ?? 0)</p>
+                </div>
+                <div class="p-4 border-2 border-black bg-white shadow-lg">
+                    <p><strong>Ring:</strong> @(Model.RingEquipment?.Name ?? "None")</p>
+                    <p>Strength: @(Model.RingEquipment?.Strength ?? 0)</p>
+                    <p>Agility: @(Model.RingEquipment?.Agility ?? 0)</p>
+                    <p>Intelligence: @(Model.RingEquipment?.Intelligence ?? 0)</p>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function confirmDelete() {
+        return confirm("Are you sure you want to delete all equipment for this ninja?");
+    }
+</script>

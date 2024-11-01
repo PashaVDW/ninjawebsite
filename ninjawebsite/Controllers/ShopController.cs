@@ -64,7 +64,7 @@ namespace ninjawebsite.Controllers
             {
                 var newGoldAmount = ninja.Gold - equipment.GoldValue;
                 ninja.Gold = newGoldAmount;
-                await _ninjaRepository.UpdateNinjaAsync(ninja);
+                await _ninjaRepository.UpdateNinja(ninja);
 
                 await _inventoryRepository.AddInvertoryAsync(new Inventory
                 {

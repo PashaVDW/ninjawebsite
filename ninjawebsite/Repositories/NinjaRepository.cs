@@ -25,10 +25,44 @@
         {
             return await _context.Ninjas.FindAsync(id);
         }
-        public async Task UpdateNinjaAsync(Ninja ninja)
+
+        public async Task UpdateNinja(Ninja ninja)
         {
             _context.Ninjas.Update(ninja);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Ninja> CreateNinja(string name, decimal gold)
+        {
+            if (name.Length > 255 || gold > int.MaxValue)
+            {
+                return null;
+            }
+
+            Ninja ninja = new Ninja()
+            {
+                Name = name,
+                Gold = gold
+            };
+
+            _context.Ninjas.Add(ninja);
+            await _context.SaveChangesAsync();
+
+            return ninja;
+        }
+        public async Task DeleteNinjaAsync(int id)
+        {
+            var ninja = await _context.Ninjas
+                .Include(n => n.Inventory)
+                .FirstOrDefaultAsync(n => n.Id == id);
+
+            if (ninja != null)
+            {
+                _context.Inventories.RemoveRange(ninja.Inventory);
+
+                _context.Ninjas.Remove(ninja);
+                await _context.SaveChangesAsync();
+            }
         }
     }
 

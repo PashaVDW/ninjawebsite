@@ -21,7 +21,7 @@ namespace ninjawebsite.Controllers
             _inventoryRepository = inventoryRepository;
             _categoriesRepository = categoriesRepository;
         }
-        public async Task<IActionResult> Index(int ninjaId = 1, int categoryId = 0)
+        public async Task<IActionResult> Index(int ninjaId = 6, int categoryId = 0)
         {
             var shops = await _shopRepository.GetAllShopsAsync();
             var equipment = await _equipmentRepository.GetAllEquipmentAsync();

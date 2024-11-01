@@ -75,6 +75,19 @@
                     select e).FirstOrDefault();
         }
 
+        public async Task DeleteAllEquipmentForNinja(int ninjaId)
+        {
+            var ninjaInventory = await _context.Inventories
+                .Where(i => i.NinjaId == ninjaId)
+                .ToListAsync();
+
+            if (ninjaInventory.Any())
+            {
+                _context.Inventories.RemoveRange(ninjaInventory);
+                await _context.SaveChangesAsync();
+            }
+        }
+
         public Equipment GetHeadEquipmentForNinja(int id) => GetEquipmentForNinja(id, 1);
         public Equipment GetChestEquipmentForNinja(int id) => GetEquipmentForNinja(id, 2);
         public Equipment GetHandEquipmentForNinja(int id) => GetEquipmentForNinja(id, 3);

@@ -1,17 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ninjawebsite.Interfaces;
+using ninjawebsite.Models;
+using ninjawebsite.ViewModels;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ninjawebsite.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
-    using ninjawebsite.Interfaces;
-    using ninjawebsite.Models;
-    using ninjawebsite.Repositories;
-    using ninjawebsite.ViewModels;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection.Metadata.Ecma335;
-    using System.Threading.Tasks;
-
     public class NinjaController : Controller
     {
         private readonly INinjaRepository _ninjaRepository;
@@ -34,10 +29,10 @@ namespace ninjawebsite.Controllers
 
             return View(ninjaViewModels);
         }
+
         public async Task<IActionResult> CreateNinja(string name, int gold)
         {
             await _ninjaRepository.CreateNinja(name, gold);
-
             return RedirectToAction("Create");
         }
 
@@ -45,6 +40,7 @@ namespace ninjawebsite.Controllers
         {
             return View();
         }
+
         public async Task<NinjaViewModel> GetNinjaWithEquipment(int id)
         {
             var ninja = await _ninjaRepository.GetNinjaById(id);
@@ -81,7 +77,6 @@ namespace ninjawebsite.Controllers
             ninja.Gold = model.Gold;
 
             await _ninjaRepository.UpdateNinja(ninja);
-
             return RedirectToAction("Index");
         }
 
@@ -127,6 +122,13 @@ namespace ninjawebsite.Controllers
             await _ninjaRepository.DeleteNinjaAsync(id);
             return RedirectToAction("Index");
         }
-    }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteAllEquipment(int id)
+        {
+            await _ninjaRepository.DeleteAllEquipmentForNinja(id);
+
+            return RedirectToAction("Details", new { id = id });
+        }
+    }
 }

@@ -12,6 +12,7 @@
         Task UpdateNinja(Ninja ninja);
         Task DeleteNinjaAsync(int id);
         Equipment GetEquipmentForNinja(int id, int categoryId);
+        Task DeleteAllEquipmentForNinja(int ninjaId);
         Equipment GetHeadEquipmentForNinja(int id) => GetEquipmentForNinja(id, 1);
         Equipment GetChestEquipmentForNinja(int id) => GetEquipmentForNinja(id, 2);
         Equipment GetHandEquipmentForNinja(int id) => GetEquipmentForNinja(id, 3);

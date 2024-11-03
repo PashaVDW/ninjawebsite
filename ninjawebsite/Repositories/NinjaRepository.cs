@@ -1,7 +1,6 @@
 ﻿namespace ninjawebsite.Repositories
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.EntityFrameworkCore;
     using ninjawebsite.Interfaces;
@@ -18,12 +17,26 @@
 
         public async Task<IEnumerable<Ninja>> GetAllNinjasAsync()
         {
-            return await _context.Ninjas.ToListAsync();
+            var ninjas = await _context.Ninjas.ToListAsync();
+            List<Ninja> ninjaList = new List<Ninja>();
+            foreach (var ninja in ninjas)
+            {
+                ninjaList.Add(ninja);
+            }
+            return ninjaList;
         }
 
         public async Task<Ninja> GetNinjaById(int id)
         {
-            return await _context.Ninjas.FindAsync(id);
+            var ninjas = await _context.Ninjas.ToListAsync();
+            foreach (var ninja in ninjas)
+            {
+                if (ninja.Id == id)
+                {
+                    return ninja;
+                }
+            }
+            return null;
         }
 
         public async Task UpdateNinja(Ninja ninja)
@@ -39,7 +52,7 @@
                 return null;
             }
 
-            Ninja ninja = new Ninja()
+            Ninja ninja = new Ninja
             {
                 Name = name,
                 Gold = gold
@@ -50,29 +63,110 @@
 
             return ninja;
         }
+
         public async Task DeleteNinjaAsync(int id)
         {
-            var ninja = await _context.Ninjas
-                .Include(n => n.Inventory)
-                .FirstOrDefaultAsync(n => n.Id == id);
+            var ninjas = await _context.Ninjas.Include(n => n.Inventory).ToListAsync();
+            Ninja ninjaToDelete = null;
 
-            if (ninja != null)
+            foreach (var ninja in ninjas)
             {
-                _context.Inventories.RemoveRange(ninja.Inventory);
+                if (ninja.Id == id)
+                {
+                    ninjaToDelete = ninja;
+                    break;
+                }
+            }
 
-                _context.Ninjas.Remove(ninja);
+            if (ninjaToDelete != null)
+            {
+                foreach (var inventoryItem in ninjaToDelete.Inventory)
+                {
+                    _context.Inventories.Remove(inventoryItem);
+                }
+
+                _context.Ninjas.Remove(ninjaToDelete);
                 await _context.SaveChangesAsync();
             }
         }
 
         public Equipment GetEquipmentForNinja(int id, int categoryId)
         {
-            var ninja = GetNinjaById(id);
+            var inventories = _context.Inventories.ToList();
+            var equipments = _context.Equipments.ToList();
 
-            return (from i in _context.Inventories
-                    join e in _context.Equipments on i.EquipmentId equals e.Id
-                    where i.NinjaId == id && e.CategoryId == categoryId
-                    select e).FirstOrDefault();
+            foreach (var inventory in inventories)
+            {
+                if (inventory.NinjaId == id)
+                {
+                    foreach (var equipment in equipments)
+                    {
+                        if (equipment.Id == inventory.EquipmentId && equipment.CategoryId == categoryId)
+                        {
+                            return equipment;
+                        }
+                    }
+                }
+            }
+            return null;
+        }
+
+        public async Task DeleteAllEquipmentForNinja(int ninjaId)
+        {
+            var inventories = await _context.Inventories.Include(i => i.Equipment).ToListAsync();
+            List<Inventory> ninjaInventory = new List<Inventory>();
+            decimal totalGoldValue = 0;
+
+            foreach (var inventory in inventories)
+            {
+                if (inventory.NinjaId == ninjaId)
+                {
+                    ninjaInventory.Add(inventory);
+                    if (inventory.Equipment != null)
+                    {
+                        totalGoldValue += inventory.Equipment.GoldValue;
+                    }
+                }
+            }
+
+            if (ninjaInventory.Count > 0)
+            {
+                var ninja = await _context.Ninjas.FindAsync(ninjaId);
+                if (ninja != null)
+                {
+                    ninja.Gold += totalGoldValue;
+                }
+
+                foreach (var inventoryItem in ninjaInventory)
+                {
+                    _context.Inventories.Remove(inventoryItem);
+                }
+
+                await _context.SaveChangesAsync();
+            }
+        }
+
+        public async Task<List<Equipment>> GetAllEquipmentForNinja(int ninjaId)
+        {
+            var inventories = await _context.Inventories.ToListAsync();
+            var equipments = await _context.Equipments.ToListAsync();
+            List<Equipment> ninjaEquipments = new List<Equipment>();
+
+            foreach (var inventory in inventories)
+            {
+                if (inventory.NinjaId == ninjaId)
+                {
+                    foreach (var equipment in equipments)
+                    {
+                        if (equipment.Id == inventory.EquipmentId)
+                        {
+                            ninjaEquipments.Add(equipment);
+                        }
+                    }
+                }
+            }
+
+            return ninjaEquipments;
         }
 
         public Equipment GetHeadEquipmentForNinja(int id) => GetEquipmentForNinja(id, 1);
@@ -81,6 +175,5 @@
         public Equipment GetFeetEquipmentForNinja(int id) => GetEquipmentForNinja(id, 4);
         public Equipment GetRingEquipmentForNinja(int id) => GetEquipmentForNinja(id, 5);
         public Equipment GetNecklaceEquipmentForNinja(int id) => GetEquipmentForNinja(id, 6);
-
     }
 }

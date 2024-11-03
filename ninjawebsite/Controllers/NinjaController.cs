@@ -1,17 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using ninjawebsite.Interfaces;
+using ninjawebsite.Models;
+using ninjawebsite.ViewModels;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace ninjawebsite.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
-    using ninjawebsite.Interfaces;
-    using ninjawebsite.Models;
-    using ninjawebsite.Repositories;
-    using ninjawebsite.ViewModels;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection.Metadata.Ecma335;
-    using System.Threading.Tasks;
-
     public class NinjaController : Controller
     {
         private readonly INinjaRepository _ninjaRepository;
@@ -34,17 +29,34 @@ namespace ninjawebsite.Controllers
 
             return View(ninjaViewModels);
         }
+
+        [HttpPost]
         public async Task<IActionResult> CreateNinja(string name, int gold)
         {
-            await _ninjaRepository.CreateNinja(name, gold);
+            var createdNinja = await _ninjaRepository.CreateNinja(name, gold);
+            if (createdNinja == null)
+            {
+                TempData["ToastMessage"] = "Failed to create ninja. Check the inputs.";
+                TempData["ToastType"] = "error";
+                TempData["ToastId"] = "CreateNinjaError";
+            }
+            else
+            {
+                TempData["ToastMessage"] = "Ninja created successfully!";
+                TempData["ToastType"] = "success";
+                TempData["ToastId"] = "CreateNinjaSuccess";
+            }
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 3000;
 
-            return RedirectToAction("Create");
+            return RedirectToAction("Index");
         }
 
         public async Task<IActionResult> Create()
         {
             return View();
         }
+
         public async Task<NinjaViewModel> GetNinjaWithEquipment(int id)
         {
             var ninja = await _ninjaRepository.GetNinjaById(id);
@@ -74,13 +86,23 @@ namespace ninjawebsite.Controllers
             var ninja = await _ninjaRepository.GetNinjaById(model.Id);
             if (ninja == null)
             {
-                return NotFound();
+                TempData["ToastMessage"] = "Ninja not found for editing.";
+                TempData["ToastType"] = "error";
+                TempData["ToastId"] = "EditNinjaError";
             }
+            else
+            {
+                ninja.Name = model.Name;
+                ninja.Gold = model.Gold;
 
-            ninja.Name = model.Name;
-            ninja.Gold = model.Gold;
+                await _ninjaRepository.UpdateNinja(ninja);
 
-            await _ninjaRepository.UpdateNinja(ninja);
+                TempData["ToastMessage"] = "Ninja updated successfully!";
+                TempData["ToastType"] = "success";
+                TempData["ToastId"] = "EditNinjaSuccess";
+            }
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 3000;
 
             return RedirectToAction("Index");
         }
@@ -121,12 +143,44 @@ namespace ninjawebsite.Controllers
             var ninja = await _ninjaRepository.GetNinjaById(id);
             if (ninja == null)
             {
-                return NotFound();
+                TempData["ToastMessage"] = "Ninja not found for deletion.";
+                TempData["ToastType"] = "error";
+                TempData["ToastId"] = "DeleteNinjaError";
             }
+            else
+            {
+                await _ninjaRepository.DeleteNinjaAsync(id);
+                TempData["ToastMessage"] = "Ninja deleted successfully.";
+                TempData["ToastType"] = "success";
+                TempData["ToastId"] = "DeleteNinjaSuccess";
+            }
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 3000;
 
-            await _ninjaRepository.DeleteNinjaAsync(id);
             return RedirectToAction("Index");
         }
-    }
 
+        [HttpPost]
+        public async Task<IActionResult> DeleteAllEquipment(int id)
+        {
+            var ninjaEquipment = await _ninjaRepository.GetAllEquipmentForNinja(id);
+            if (ninjaEquipment == null || !ninjaEquipment.Any())
+            {
+                TempData["ToastMessage"] = "No equipment to sell!";
+                TempData["ToastType"] = "error";
+                TempData["ToastId"] = "NoEquipment";
+            }
+            else
+            {
+                await _ninjaRepository.DeleteAllEquipmentForNinja(id);
+                TempData["ToastMessage"] = "You sold all your equipment";
+                TempData["ToastType"] = "success";
+                TempData["ToastId"] = "SellEquipment";
+            }
+            TempData["AutoHide"] = "yes";
+            TempData["MilSecHide"] = 3000;
+
+            return RedirectToAction("Details", new { id = id });
+        }
+    }
 }

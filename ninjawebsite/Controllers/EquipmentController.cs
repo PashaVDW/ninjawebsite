@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
 using ninjawebsite.Interfaces;
-using ninjawebsite.Models;
-using ninjawebsite.Repositories;
 using ninjawebsite.ViewModels;
 
 namespace ninjawebsite.Controllers

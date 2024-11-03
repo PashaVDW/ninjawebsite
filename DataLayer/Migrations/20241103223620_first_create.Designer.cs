@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ninjawebsite.Migrations
+namespace DataLayer.Migrations
 {
     [DbContext(typeof(NinjaContext))]
-    [Migration("20241103215345_first_create")]
+    [Migration("20241103223620_first_create")]
     partial class first_create
     {
         /// <inheritdoc />

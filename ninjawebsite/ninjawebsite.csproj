@@ -21,9 +21,9 @@
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.6" />
 	</ItemGroup>
 	<ItemGroup>
-		<Folder Include="Migrations\" />
+	  <None Include="wwwroot\ninja_images\ninja.png" />
 	</ItemGroup>
 	<ItemGroup>
-	  <None Include="wwwroot\ninja_images\ninja.png" />
+	  <ProjectReference Include="..\DataLayer\DataLayer.csproj" />
 	</ItemGroup>
 </Project>

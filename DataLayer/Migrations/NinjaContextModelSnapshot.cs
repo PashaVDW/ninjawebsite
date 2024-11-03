@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace ninjawebsite.Migrations
+namespace DataLayer.Migrations
 {
     [DbContext(typeof(NinjaContext))]
     partial class NinjaContextModelSnapshot : ModelSnapshot

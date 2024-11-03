@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace ninjawebsite.Migrations
+namespace DataLayer.Migrations
 {
     /// <inheritdoc />
     public partial class first_create : Migration

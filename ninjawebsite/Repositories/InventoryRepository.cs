@@ -13,22 +13,22 @@ namespace ninjawebsite.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Inventory>> GetAllInventoriesAsync()
+        public async Task<IEnumerable<Inventory>> GetAllInventories()
         {
             return await _context.Inventories.ToListAsync();
         }
 
-        public async Task<Inventory> GetInventoryByEquipmentAndNinjaIdAsync(int EqId, int ninjaId)
+        public async Task<Inventory> GetInventoryByEquipmentAndNinjaId(int EqId, int ninjaId)
         {
 
             return await _context.Inventories.Where(i => i.EquipmentId == EqId && i.NinjaId == ninjaId).FirstOrDefaultAsync();
         }
-        public async Task AddInventoryAsync(Inventory inventory)
+        public async Task AddInventory(Inventory inventory)
         {
             _context.Inventories.Add(inventory);
             await _context.SaveChangesAsync();
         }
-        public async Task DeleteInventoryAsync(Inventory inventory)
+        public async Task DeleteInventory(Inventory inventory)
         {
             _context.Inventories.Remove(inventory);
         }

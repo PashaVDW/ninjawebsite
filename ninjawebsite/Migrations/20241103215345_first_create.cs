@@ -7,7 +7,7 @@
 namespace ninjawebsite.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class first_create : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -139,8 +139,10 @@ namespace ninjawebsite.Migrations
                 columns: new[] { "Id", "Gold", "Name" },
                 values: new object[,]
                 {
-                    { 1, 100m, "Ryu" },
-                    { 2, 150m, "Ken" }
+                    { 1, 120m, "Ryu" },
+                    { 2, 180m, "Ken" },
+                    { 3, 90m, "Sakura" },
+                    { 4, 200m, "Hayabusa" }
                 });
 
             migrationBuilder.InsertData(
@@ -148,9 +150,24 @@ namespace ninjawebsite.Migrations
                 columns: new[] { "Id", "Agility", "CategoryId", "GoldValue", "Intelligence", "Name", "Strength" },
                 values: new object[,]
                 {
-                    { 1, 5, 1, 50m, 0, "Katana", 10 },
-                    { 2, 2, 2, 30m, 0, "Helmet", 5 },
-                    { 3, -2, 6, 75m, 0, "Armor", 20 }
+                    { 1, 2, 1, 50m, 0, "Samurai Helmet", 5 },
+                    { 2, 5, 1, 40m, 0, "Hood of Shadows", 2 },
+                    { 3, 1, 1, 60m, 8, "Mystic Crown", 0 },
+                    { 4, -1, 2, 100m, 0, "Dragon Armor", 15 },
+                    { 5, 3, 2, 30m, 0, "Leather Vest", 5 },
+                    { 6, 0, 2, 50m, 10, "Mage Robe", 2 },
+                    { 7, 1, 3, 25m, 0, "Iron Gauntlets", 8 },
+                    { 8, 7, 3, 45m, 0, "Gloves of Dexterity", 3 },
+                    { 9, 2, 3, 35m, 6, "Sorcerer's Gloves", 1 },
+                    { 10, -1, 4, 40m, 0, "Steel Boots", 7 },
+                    { 11, 9, 4, 55m, 0, "Ninja Tabi", 2 },
+                    { 12, 3, 4, 30m, 4, "Boots of Insight", 1 },
+                    { 13, 0, 5, 70m, 0, "Ring of Power", 10 },
+                    { 14, 1, 5, 65m, 10, "Ring of Wisdom", 0 },
+                    { 15, 8, 5, 45m, 0, "Agility Band", 1 },
+                    { 16, -2, 6, 90m, 0, "Necklace of Fortitude", 12 },
+                    { 17, 2, 6, 80m, 12, "Pendant of Wisdom", 0 },
+                    { 18, 10, 6, 70m, 0, "Charm of Agility", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -158,9 +175,11 @@ namespace ninjawebsite.Migrations
                 columns: new[] { "EquipmentId", "NinjaId", "CategoryId" },
                 values: new object[,]
                 {
-                    { 1, 1, 5 },
-                    { 3, 1, 3 },
-                    { 2, 2, 2 }
+                    { 1, 1, 1 },
+                    { 4, 1, 2 },
+                    { 8, 2, 3 },
+                    { 12, 3, 4 },
+                    { 15, 4, 5 }
                 });
 
             migrationBuilder.InsertData(
@@ -168,8 +187,15 @@ namespace ninjawebsite.Migrations
                 columns: new[] { "Id", "EquipmentId", "IsAvailable", "NinjaId" },
                 values: new object[,]
                 {
-                    { 1, 2, true, 1 },
-                    { 2, 3, false, 2 }
+                    { 1, 1, false, 1 },
+                    { 2, 4, false, 1 },
+                    { 3, 8, false, 2 },
+                    { 4, 12, false, 3 },
+                    { 5, 15, false, 4 },
+                    { 6, 2, true, 1 },
+                    { 7, 5, true, 2 },
+                    { 8, 9, true, 3 },
+                    { 9, 14, true, 4 }
                 });
 
             migrationBuilder.CreateIndex(

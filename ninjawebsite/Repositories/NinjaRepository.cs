@@ -15,7 +15,7 @@
             _context = context;
         }
 
-        public async Task<IEnumerable<Ninja>> GetAllNinjasAsync()
+        public async Task<IEnumerable<Ninja>> GetAllNinjas()
         {
             var ninjas = await _context.Ninjas.ToListAsync();
             List<Ninja> ninjaList = new List<Ninja>();
@@ -64,7 +64,7 @@
             return ninja;
         }
 
-        public async Task DeleteNinjaAsync(int id)
+        public async Task DeleteNinja(int id)
         {
             var ninjas = await _context.Ninjas.Include(n => n.Inventory).ToListAsync();
             Ninja ninjaToDelete = null;

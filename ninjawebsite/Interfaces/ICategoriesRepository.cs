@@ -4,7 +4,7 @@ namespace ninjawebsite.Interfaces
 {
     public interface ICategoriesRepository
     {
-        Task<IEnumerable<Category>> GetAllCategoriesAsync();
+        Task<IEnumerable<Category>> GetAllCategories();
 
     }
 }

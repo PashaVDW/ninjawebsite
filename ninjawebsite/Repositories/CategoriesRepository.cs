@@ -13,7 +13,7 @@ namespace ninjawebsite.Repositories
             _context = context;
         }
 
-        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
+        public async Task<IEnumerable<Category>> GetAllCategories()
         {
             return await _context.Categories.ToListAsync();
         }

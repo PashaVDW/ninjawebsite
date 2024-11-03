@@ -6,11 +6,11 @@
 
     public interface INinjaRepository
     {
-        Task<IEnumerable<Ninja>> GetAllNinjasAsync();
+        Task<IEnumerable<Ninja>> GetAllNinjas();
         Task<Ninja> CreateNinja(string name, decimal gold);
         Task<Ninja> GetNinjaById(int id);
         Task UpdateNinja(Ninja ninja);
-        Task DeleteNinjaAsync(int id);
+        Task DeleteNinja(int id);
         Equipment GetEquipmentForNinja(int id, int categoryId);
         Task<List<Equipment>> GetAllEquipmentForNinja(int ninjaId);
         Task DeleteAllEquipmentForNinja(int ninjaId);

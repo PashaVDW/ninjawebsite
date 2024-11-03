@@ -4,10 +4,11 @@ namespace ninjawebsite.Interfaces
 {
     public interface IShopRepository
     {
-        Task<IEnumerable<Shop>> GetAllShopsAsync();
-        Task<Shop> GetShopByIdAsync(int id);
-        Task AddShopAsync(Shop shop);
-        Task UpdateShopAsync(Shop shop);
+        Task<IEnumerable<Shop>> GetAllShops();
+        Task<Shop> GetShopById(int id);
+        Task AddShop(Shop shop);
+        Task UpdateShop(Shop shop);
         Task CreateShopById(int ninjaId, int equipmentId);
+        Task DeleteShop(Shop shop);
     }
 }

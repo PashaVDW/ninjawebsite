@@ -46,10 +46,3 @@ body {
         width: 100%;
         height: auto;
     }
-
-    .item-card .item-info {
-        background-color: rgba(0, 0, 50, 0.3);
-        color: white;
-        padding: 5px;
-        text-align: center;
-    }

@@ -1,38 +1,35 @@
 ﻿namespace ninjawebsite.Components
 {
     using Microsoft.AspNetCore.Razor.TagHelpers;
-
-    namespace bumbo.Components
+    [HtmlTargetElement("toast-message")]
+    public class ToastMessage : TagHelper
     {
-        [HtmlTargetElement("toast-message")]
-        public class ToastMessage : TagHelper
+        public string ToastId { get; set; }
+        public string Message { get; set; } = "Dit is een toast!";
+        /// <summary>
+        ///  Options: info, success, error.
+        ///  This inpacts the styling of the message.
+        /// </summary>
+        public string MessageType { get; set; } = "info";
+        public string CustomStyle { get; set; } = "";
+
+        public override void Process(TagHelperContext context, TagHelperOutput output)
         {
-            public string ToastId { get; set; }
-            public string Message { get; set; } = "Dit is een toast!";
-            /// <summary>
-            ///  Options: info, success, error.
-            ///  This inpacts the styling of the message.
-            /// </summary>
-            public string MessageType { get; set; } = "info";
-            public string CustomStyle { get; set; } = "";
+            output.TagName = "div";
 
-            public override void Process(TagHelperContext context, TagHelperOutput output)
+            string toastClass = MessageType.ToLower() switch
             {
-                output.TagName = "div";
+                "success" => "bg-green-500 text-white",
+                "error" => "bg-red-500 text-white",
+                "info" => "bg-blue-500 text-white",
+                _ => "bg-blue-500 text-white"
+            };
 
-                string toastClass = MessageType.ToLower() switch
-                {
-                    "success" => "bg-green-500 text-white",
-                    "error" => "bg-red-500 text-white",
-                    "info" => "bg-blue-500 text-white",
-                    _ => "bg-blue-500 text-white"
-                };
+            output.Attributes.SetAttribute("id", ToastId);
+            output.Attributes.SetAttribute("class", $"fixed bottom-5 right-5 z-50 p-4 rounded-lg shadow-md {toastClass} {CustomStyle}");
+            output.Attributes.SetAttribute("style", "display: none;");
 
-                output.Attributes.SetAttribute("id", ToastId);
-                output.Attributes.SetAttribute("class", $"fixed bottom-5 right-5 z-50 p-4 rounded-lg shadow-md {toastClass} {CustomStyle}");
-                output.Attributes.SetAttribute("style", "display: none;");
-
-                string toastHtml = $@"
+            string toastHtml = $@"
                 <div class='flex items-center justify-between'>
                     <span>{Message}</span>
                     <button onclick=""document.getElementById('{ToastId}').style.display='none'"" class='ml-4 bg-transparent text-white'>
@@ -42,15 +39,13 @@
                     </button>
                 </div>";
 
-                output.Content.SetHtmlContent(toastHtml);
+            output.Content.SetHtmlContent(toastHtml);
 
-                output.PostContent.AppendHtml(@"
+            output.PostContent.AppendHtml(@"
                 <script>
                     function showToast(toastId, autoHide, delay) {
                         var toast = document.getElementById(toastId);
                         toast.style.display = 'block';
-
-                        // Check of auto-hide is ingeschakeld
                         if (autoHide.toLowerCase() === 'yes') {
                             setTimeout(function() {
                                 toast.style.display = 'none';
@@ -58,7 +53,6 @@
                         }
                     }
                 </script>");
-            }
         }
     }
 

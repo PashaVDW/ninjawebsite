@@ -2,6 +2,7 @@
 using ninjawebsite.Interfaces;
 using ninjawebsite.Models;
 using ninjawebsite.ViewModels;
+using NuGet.Versioning;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,15 +11,16 @@ namespace ninjawebsite.Controllers
     public class NinjaController : Controller
     {
         private readonly INinjaRepository _ninjaRepository;
-
-        public NinjaController(INinjaRepository ninjaRepository)
+        private readonly IShopRepository _shopRepository;
+        public NinjaController(INinjaRepository ninjaRepository, IShopRepository shopRepository)
         {
             _ninjaRepository = ninjaRepository;
+            _shopRepository = shopRepository;
         }
 
         public async Task<IActionResult> Index()
         {
-            var ninjas = await _ninjaRepository.GetAllNinjasAsync();
+            var ninjas = await _ninjaRepository.GetAllNinjas();
 
             var ninjaViewModels = ninjas.Select(n => new NinjaViewModel
             {
@@ -149,7 +151,7 @@ namespace ninjawebsite.Controllers
             }
             else
             {
-                await _ninjaRepository.DeleteNinjaAsync(id);
+                await _ninjaRepository.DeleteNinja(id);
                 TempData["ToastMessage"] = "Ninja deleted successfully.";
                 TempData["ToastType"] = "success";
                 TempData["ToastId"] = "DeleteNinjaSuccess";
@@ -163,6 +165,7 @@ namespace ninjawebsite.Controllers
         [HttpPost]
         public async Task<IActionResult> DeleteAllEquipment(int id)
         {
+            var shops = await _shopRepository.GetAllShops();
             var ninjaEquipment = await _ninjaRepository.GetAllEquipmentForNinja(id);
             if (ninjaEquipment == null || !ninjaEquipment.Any())
             {
@@ -172,6 +175,12 @@ namespace ninjawebsite.Controllers
             }
             else
             {
+                foreach (var equipment in ninjaEquipment)
+                {
+                    var shop = shops.First(s => s.EquipmentId == equipment.Id && s.NinjaId == id);
+                    shop.IsAvailable = true;
+                    await _shopRepository.UpdateShop(shop);
+                }
                 await _ninjaRepository.DeleteAllEquipmentForNinja(id);
                 TempData["ToastMessage"] = "You sold all your equipment";
                 TempData["ToastType"] = "success";

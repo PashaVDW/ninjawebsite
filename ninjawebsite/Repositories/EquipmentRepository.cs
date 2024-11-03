@@ -11,11 +11,11 @@ namespace ninjawebsite.Repositories
         {
             _context = context;
         }
-        public async Task<IEnumerable<Equipment>> GetAllEquipmentAsync()
+        public async Task<IEnumerable<Equipment>> GetAllEquipment()
         {
             return await _context.Equipments.ToListAsync();
         }
-        public async Task<Equipment> GetEquipmentByIdAsync(int id)
+        public async Task<Equipment> GetEquipmentById(int id)
         {
             return await _context.Equipments.FindAsync(id);
         }
@@ -41,6 +41,12 @@ namespace ninjawebsite.Repositories
         public async Task<Equipment> UpdateEquipment(Equipment equipment)
         {
             _context.Equipments.Update(equipment);
+            await _context.SaveChangesAsync();
+            return equipment;
+        }
+        public async Task<Equipment> DeleteEquipment(Equipment equipment)
+        {
+            _context.Equipments.Remove(equipment);
             await _context.SaveChangesAsync();
             return equipment;
         }
